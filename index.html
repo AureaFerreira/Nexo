@@ -1,0 +1,526 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Nexo | A Milha Final da Sua Carreira</title>
+    
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    
+    <!-- Three.js -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+    
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&display=swap" rel="stylesheet">
+    
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+            overflow-x: hidden;
+            background-color: #ffffff;
+            color: #1a1a1a;
+        }
+
+        /* Paleta de Cores Customizada */
+        :root {
+            --nexo-rose: #e66888;
+            --nexo-rose-light: #ffd1dc;
+            --nexo-rose-dark: #c04565;
+            --nexo-dark: #1f2937;
+        }
+
+        .text-rose { color: var(--nexo-rose); }
+        .bg-rose { background-color: var(--nexo-rose); }
+        .bg-rose:hover { background-color: var(--nexo-rose-dark); }
+        .border-rose { border-color: var(--nexo-rose); }
+        .hover\:text-rose:hover { color: var(--nexo-rose); }
+        .hover\:bg-rose-dark:hover { background-color: var(--nexo-rose-dark); }
+        .hover\:shadow-rose\/50:hover { box-shadow: 0 10px 15px -3px rgba(230, 104, 136, 0.5); }
+
+        /* Three.js Canvas Container */
+        #canvas-container {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100vh;
+            z-index: -1;
+            opacity: 0.8;
+            overflow: hidden;
+        }
+
+        /* Glassmorphism Cards */
+        .glass-card {
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(230, 104, 136, 0.1);
+            box-shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.05);
+            transition: transform 0.3s ease;
+        }
+        .glass-card:hover {
+            transform: translateY(-5px);
+        }
+
+        /* Smooth Scroll */
+        html { scroll-behavior: smooth; }
+
+        /* Animation Utilities */
+        @keyframes float {
+            0% { transform: translateY(0px); }
+            50% { transform: translateY(-10px); }
+            100% { transform: translateY(0px); }
+        }
+        .float-anim { animation: float 6s ease-in-out infinite; }
+        
+        .blink { animation: blinker 1s linear infinite; }
+        @keyframes blinker { 50% { opacity: 0; } }
+    </style>
+</head>
+<body class="antialiased">
+
+    <!-- Three.js Background -->
+    <div id="canvas-container"></div>
+
+    <!-- Navigation -->
+    <nav class="fixed w-full z-50 bg-white/80 backdrop-blur-md border-b border-gray-100">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex justify-between h-16 items-center">
+                <div class="flex-shrink-0 flex items-center gap-2">
+                    <!-- Logo Minimalista -->
+                    <div class="w-8 h-8 bg-rose rounded-lg flex items-center justify-center text-white font-bold text-xl">N</div>
+                    <span class="font-bold text-2xl tracking-tight text-gray-900">Nexo</span>
+                </div>
+                <div class="hidden md:flex space-x-8">
+                    <a href="#problema" class="text-gray-600 hover:text-rose transition-colors font-medium">O Problema</a>
+                    <a href="#solucao" class="text-gray-600 hover:text-rose transition-colors font-medium">Como Funciona</a>
+                    <a href="#mvp" class="text-gray-600 hover:text-rose transition-colors font-medium">O App</a>
+                </div>
+                <a href="#participe" class="bg-rose text-white px-5 py-2 rounded-full font-semibold hover:bg-rose-dark transition-all shadow-lg hover:shadow-rose/50 transform hover:-translate-y-0.5 text-sm">
+                    Ajudar a Construir
+                </a>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <header class="relative pt-32 pb-20 lg:pt-48 lg:pb-32 overflow-hidden">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10 text-center">
+            
+            <div class="inline-block mb-6 px-4 py-1.5 rounded-full bg-rose-50 border border-rose-100 text-rose font-semibold text-sm animate-fade-in-up">
+                🚀 Selecionado para o Campus Mobile 14ª Edição
+            </div>
+
+            <h1 class="text-5xl md:text-7xl font-bold text-gray-900 tracking-tight mb-6 leading-tight">
+                Transforme Teoria em <br>
+                <span class="text-transparent bg-clip-text bg-gradient-to-r from-rose-400 to-rose-600">Experiência Real</span>
+            </h1>
+
+            <p class="mt-4 max-w-2xl mx-auto text-xl text-gray-600 mb-10 leading-relaxed">
+                O "Duolingo" da sua carreira. Pare de colecionar certificados e comece a construir um portfólio validado com desafios reais de mercado.
+            </p>
+
+            <div class="flex flex-col sm:flex-row justify-center gap-4">
+                <a href="#participe" class="bg-gray-900 text-white px-8 py-4 rounded-xl font-bold text-lg hover:bg-gray-800 transition-all shadow-xl hover:shadow-2xl transform hover:-translate-y-1 flex items-center justify-center gap-2">
+                    <i class="fa-solid fa-flask"></i>
+                    Quero Testar o Beta
+                </a>
+                <a href="#solucao" class="bg-white text-gray-900 border border-gray-200 px-8 py-4 rounded-xl font-bold text-lg hover:bg-gray-50 transition-all flex items-center justify-center gap-2">
+                    <i class="fa-solid fa-play text-rose"></i>
+                    Ver como funciona
+                </a>
+            </div>
+            
+            <p class="mt-8 text-sm text-gray-500">
+                Lançamento inicial para <strong class="text-gray-700">Devs</strong>. Expansão para <strong class="text-gray-700">Design, Mkt e Dados</strong> em breve.
+            </p>
+        </div>
+    </header>
+
+    <!-- Problem Section -->
+    <section id="problema" class="py-20 bg-gray-50">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="text-center mb-16">
+                <h2 class="text-3xl font-bold text-gray-900">O Paradoxo da Experiência</h2>
+                <p class="mt-4 text-gray-600 max-w-2xl mx-auto text-lg">Seja em código, design ou dados, você já se sentiu preso nesse ciclo?</p>
+            </div>
+
+            <div class="grid md:grid-cols-2 gap-12 items-center">
+                <div class="order-2 md:order-1">
+                    <div class="space-y-6">
+                        <div class="flex items-start gap-4 p-6 glass-card rounded-2xl">
+                            <div class="text-rose text-2xl mt-1 w-10"><i class="fa-solid fa-graduation-cap"></i></div>
+                            <div>
+                                <h3 class="font-bold text-lg text-gray-900">Estudo infinito, Prática zero</h3>
+                                <p class="text-gray-600">Você consome cursos e tutoriais, mas trava na hora de criar algo do zero sem um professor guiando.</p>
+                            </div>
+                        </div>
+                        <div class="flex items-start gap-4 p-6 glass-card rounded-2xl">
+                            <div class="text-rose text-2xl mt-1 w-10"><i class="fa-solid fa-briefcase"></i></div>
+                            <div>
+                                <h3 class="font-bold text-lg text-gray-900">A Barreira da Vaga Júnior</h3>
+                                <p class="text-gray-600">Empresas pedem experiência para iniciantes. Como ter experiência se ninguém dá a primeira chance?</p>
+                            </div>
+                        </div>
+                        <div class="flex items-start gap-4 p-6 glass-card rounded-2xl">
+                            <div class="text-rose text-2xl mt-1 w-10"><i class="fa-solid fa-ghost"></i></div>
+                            <div>
+                                <h3 class="font-bold text-lg text-gray-900">Portfólio Fantasma</h3>
+                                <p class="text-gray-600">Projetos de cursos (Todo-List, Redesign do Nubank) são ignorados. Recrutadores querem problemas reais resolvidos.</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="order-1 md:order-2 flex justify-center float-anim">
+                    <!-- Ilustração Conceitual (Abstrata para servir a todos) -->
+                    <div class="relative w-80 h-80">
+                        <div class="absolute inset-0 bg-rose-100 rounded-full opacity-50 blur-3xl"></div>
+                        <div class="relative bg-white p-8 rounded-2xl shadow-2xl border border-gray-100 text-center transform rotate-2">
+                            <div class="text-5xl mb-4">🛑</div>
+                            <h3 class="font-bold text-xl mb-2">Vaga Júnior / Estágio</h3>
+                            <p class="text-sm text-gray-500 mb-4">Requisitos Obrigatórios:</p>
+                            <div class="bg-gray-50 border border-gray-100 rounded p-3 text-sm text-left mb-2 text-gray-500 flex items-center gap-2">
+                                <i class="fa-solid fa-xmark text-red-400"></i> 2 anos de experiência prática
+                            </div>
+                            <div class="bg-gray-50 border border-gray-100 rounded p-3 text-sm text-left mb-6 text-gray-500 flex items-center gap-2">
+                                <i class="fa-solid fa-xmark text-red-400"></i> Portfólio validado no mercado
+                            </div>
+                            <button class="w-full bg-gray-200 text-gray-400 py-3 rounded-lg cursor-not-allowed font-bold text-sm uppercase tracking-wide">Aplicar (Bloqueado)</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Solution / How it Works -->
+    <section id="solucao" class="py-20 relative overflow-hidden bg-white">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
+            <div class="text-center mb-16">
+                <span class="text-rose font-bold tracking-wider uppercase text-xs bg-rose-50 px-3 py-1 rounded-full">Metodologia Nexo</span>
+                <h2 class="text-4xl font-bold text-gray-900 mt-4">Learn by Doing Gamificado</h2>
+            </div>
+
+            <div class="grid md:grid-cols-3 gap-8">
+                <!-- Step 1 -->
+                <div class="bg-white p-8 rounded-2xl shadow-lg border-t-4 border-rose hover:shadow-xl transition-all group">
+                    <div class="w-14 h-14 bg-rose-50 rounded-xl flex items-center justify-center text-rose text-2xl mb-6 group-hover:scale-110 transition-transform">
+                        <i class="fa-solid fa-scroll"></i>
+                    </div>
+                    <h3 class="text-xl font-bold text-gray-900 mb-3">1. Briefing de Mercado</h3>
+                    <p class="text-gray-600">Receba missões reais. <br>Ex: <em>"Crie uma API de login"</em> ou <em>"Desenhe uma Landing Page de alta conversão"</em>.</p>
+                </div>
+
+                <!-- Step 2 -->
+                <div class="bg-white p-8 rounded-2xl shadow-lg border-t-4 border-rose hover:shadow-xl transition-all group">
+                    <div class="w-14 h-14 bg-rose-50 rounded-xl flex items-center justify-center text-rose text-2xl mb-6 group-hover:scale-110 transition-transform">
+                        <i class="fa-solid fa-gamepad"></i>
+                    </div>
+                    <h3 class="text-xl font-bold text-gray-900 mb-3">2. Execução & XP</h3>
+                    <p class="text-gray-600">Execute a tarefa no nosso simulador. Ganhe XP, mantenha sua ofensiva (streak) e suba de nível (Jr → Pleno).</p>
+                </div>
+
+                <!-- Step 3 -->
+                <div class="bg-white p-8 rounded-2xl shadow-lg border-t-4 border-rose hover:shadow-xl transition-all group">
+                    <div class="w-14 h-14 bg-rose-50 rounded-xl flex items-center justify-center text-rose text-2xl mb-6 group-hover:scale-110 transition-transform">
+                        <i class="fa-solid fa-certificate"></i>
+                    </div>
+                    <h3 class="text-xl font-bold text-gray-900 mb-3">3. Proof of Skill</h3>
+                    <p class="text-gray-600">Sua entrega é validada (por IA ou testes automatizados) e vira prova técnica. Empresas veem o que você <em>sabe fazer</em>.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- MVP Focus Section -->
+    <section id="mvp" class="py-24 bg-gray-900 text-white relative">
+        <div class="absolute inset-0 overflow-hidden">
+             <div class="absolute top-0 right-0 w-96 h-96 bg-rose opacity-10 blur-[100px] rounded-full translate-x-1/2 -translate-y-1/2"></div>
+             <div class="absolute bottom-0 left-0 w-64 h-64 bg-blue-500 opacity-5 blur-[80px] rounded-full -translate-x-1/2 translate-y-1/2"></div>
+        </div>
+        
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10 flex flex-col md:flex-row items-center gap-16">
+            <div class="md:w-1/2">
+                <div class="inline-block bg-rose/20 border border-rose/30 text-rose-300 text-xs font-bold px-3 py-1 rounded-full mb-4">VERSÃO BETA (MVP)</div>
+                <h2 class="text-3xl md:text-5xl font-bold mb-6">Começamos com <br><span class="text-rose">Desenvolvimento</span></h2>
+                <p class="text-gray-300 text-lg mb-8 leading-relaxed">
+                    Para o Campus Mobile, o "Happy Path" será focado na carreira de tecnologia. Se você estuda programação, será o primeiro a testar o motor de validação de código do Nexo.
+                </p>
+                
+                <div class="space-y-6">
+                    <div class="flex gap-4">
+                        <div class="flex-shrink-0 w-12 h-12 rounded-lg bg-gray-800 flex items-center justify-center text-rose text-xl border border-gray-700">
+                            <i class="fa-solid fa-terminal"></i>
+                        </div>
+                        <div>
+                            <h4 class="font-bold text-white text-lg">Desafios Reais de Código</h4>
+                            <p class="text-gray-400 text-sm">Nada de "hello world". Crie APIs, integre bancos de dados e resolva bugs reais.</p>
+                        </div>
+                    </div>
+                    <div class="flex gap-4">
+                        <div class="flex-shrink-0 w-12 h-12 rounded-lg bg-gray-800 flex items-center justify-center text-rose text-xl border border-gray-700">
+                            <i class="fa-solid fa-layer-group"></i>
+                        </div>
+                        <div>
+                            <h4 class="font-bold text-white text-lg">Validação Automática</h4>
+                            <p class="text-gray-400 text-sm">Nosso sistema roda testes no seu código em tempo real. Passou? Ganhou XP.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="md:w-1/2 w-full">
+                <!-- Mockup Code Interface -->
+                <div class="bg-[#1e1e1e] rounded-xl shadow-2xl overflow-hidden border border-gray-700 transform md:rotate-2 hover:rotate-0 transition-transform duration-500">
+                    <div class="bg-[#252526] px-4 py-3 flex gap-2 items-center border-b border-gray-700">
+                        <div class="flex gap-2 mr-4">
+                            <div class="w-3 h-3 rounded-full bg-red-500"></div>
+                            <div class="w-3 h-3 rounded-full bg-yellow-500"></div>
+                            <div class="w-3 h-3 rounded-full bg-green-500"></div>
+                        </div>
+                        <span class="text-xs text-gray-400 font-mono flex-1 text-center">desafio_backend_01.js</span>
+                    </div>
+                    <div class="p-6 font-mono text-sm leading-loose overflow-hidden">
+                        <div class="flex">
+                            <div class="text-gray-600 mr-4 select-none text-right w-6">1</div>
+                            <div class="text-gray-400">// Missão: Criar rota de Login segura</div>
+                        </div>
+                        <div class="flex">
+                            <div class="text-gray-600 mr-4 select-none text-right w-6">2</div>
+                            <div><span class="text-purple-400">const</span> <span class="text-blue-300">express</span> = <span class="text-yellow-300">require</span>(<span class="text-green-300">'express'</span>);</div>
+                        </div>
+                        <div class="flex">
+                            <div class="text-gray-600 mr-4 select-none text-right w-6">3</div>
+                            <div><span class="text-purple-400">const</span> <span class="text-blue-300">jwt</span> = <span class="text-yellow-300">require</span>(<span class="text-green-300">'jsonwebtoken'</span>);</div>
+                        </div>
+                        <div class="flex">
+                            <div class="text-gray-600 mr-4 select-none text-right w-6">4</div>
+                            <div>&nbsp;</div>
+                        </div>
+                        <div class="flex">
+                            <div class="text-gray-600 mr-4 select-none text-right w-6">5</div>
+                            <div><span class="text-blue-300">app</span>.<span class="text-yellow-300">post</span>(<span class="text-green-300">'/auth'</span>, <span class="text-purple-400">async</span> (<span class="text-orange-300">req</span>, <span class="text-orange-300">res</span>) => {</div>
+                        </div>
+                        <div class="flex">
+                            <div class="text-gray-600 mr-4 select-none text-right w-6">6</div>
+                            <div class="pl-4 text-gray-500 border-l-2 border-rose bg-rose/5 inline-block w-full">/* Seu código entra aqui... */</div>
+                        </div>
+                        <div class="flex">
+                            <div class="text-gray-600 mr-4 select-none text-right w-6">7</div>
+                            <div>});</div>
+                        </div>
+                        
+                        <div class="mt-4 pt-4 border-t border-gray-700">
+                            <div class="text-xs text-gray-400 mb-2">CONSOLE</div>
+                            <div class="text-green-400 text-xs font-mono">
+                                > Testes Iniciados...<br>
+                                > [OK] Rota existe<br>
+                                > [OK] Retorna Token JWT<br>
+                                <span class="text-rose animate-pulse">> Aguardando finalização...</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Split CTA Section -->
+    <section id="participe" class="py-24 bg-gray-50">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="text-center mb-12">
+                <h2 class="text-3xl font-bold text-gray-900 mb-4">Ajude a moldar o Nexo</h2>
+                <p class="text-gray-600 text-lg max-w-2xl mx-auto">
+                    Estamos construindo o futuro da empregabilidade e sua opinião vale ouro. Escolha seu perfil e preencha o formulário rápido (2 min).
+                </p>
+            </div>
+
+            <div class="grid md:grid-cols-2 gap-6 max-w-4xl mx-auto">
+                <!-- Card Dev -->
+                <div class="bg-white p-8 rounded-2xl shadow-lg border border-gray-100 flex flex-col items-center text-center hover:shadow-xl transition-all relative overflow-hidden group">
+                    <div class="absolute top-0 left-0 w-full h-1 bg-gradient-to-r from-blue-500 to-purple-500"></div>
+                    <div class="w-16 h-16 rounded-full bg-blue-50 flex items-center justify-center text-blue-600 text-2xl mb-4 group-hover:scale-110 transition-transform">
+                        <i class="fa-solid fa-code"></i>
+                    </div>
+                    <h3 class="text-2xl font-bold text-gray-900 mb-2">Sou Desenvolvedor</h3>
+                    <p class="text-gray-500 mb-8 flex-grow">
+                        Back-end, Front-end ou Fullstack. Ajude a calibrar os desafios técnicos do MVP.
+                    </p>
+                    <a href="https://forms.gle/GEmHBEbUAM9myDnc8" target="_blank" class="w-full bg-gray-900 text-white font-bold py-3 px-6 rounded-xl hover:bg-gray-800 transition-colors flex items-center justify-center gap-2">
+                        Responder como Dev <i class="fa-solid fa-arrow-right text-xs"></i>
+                    </a>
+                </div>
+
+                <!-- Card Outras Áreas -->
+                <div class="bg-white p-8 rounded-2xl shadow-lg border border-gray-100 flex flex-col items-center text-center hover:shadow-xl transition-all relative overflow-hidden group">
+                    <div class="absolute top-0 left-0 w-full h-1 bg-gradient-to-r from-rose-400 to-orange-400"></div>
+                    <div class="w-16 h-16 rounded-full bg-rose-50 flex items-center justify-center text-rose text-2xl mb-4 group-hover:scale-110 transition-transform">
+                        <i class="fa-solid fa-pen-nib"></i>
+                    </div>
+                    <h3 class="text-2xl font-bold text-gray-900 mb-2">Outras Áreas</h3>
+                    <p class="text-gray-500 mb-8 flex-grow">
+                        Design, Marketing, Dados ou Produto. Entre na fila de espera e diga o que você precisa.
+                    </p>
+                    <a href="https://forms.gle/nRwitdDnZjcf1Kxx6" target="_blank" class="w-full bg-rose text-white font-bold py-3 px-6 rounded-xl hover:bg-rose-dark transition-colors flex items-center justify-center gap-2">
+                        Responder Geral <i class="fa-solid fa-arrow-right text-xs"></i>
+                    </a>
+                </div>
+            </div>
+            
+            <p class="text-center mt-8 text-sm text-gray-400">
+                Ao preencher, você garante acesso antecipado (Early Access).
+            </p>
+        </div>
+    </section>
+
+    <!-- Instagram Section -->
+    <section class="py-20 bg-white border-t border-gray-100 relative overflow-hidden">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center relative z-10">
+            <div class="inline-block p-4 rounded-full bg-rose-50 text-rose text-3xl mb-6 transform hover:rotate-12 transition-transform duration-300 shadow-md">
+                <i class="fa-brands fa-instagram"></i>
+            </div>
+            <h2 class="text-3xl font-bold text-gray-900 mb-4">Acompanhe nossa jornada</h2>
+            <p class="text-gray-600 text-lg max-w-2xl mx-auto mb-8">
+                Estamos documentando cada passo do desenvolvimento e da aceleração no Campus Mobile. Siga para ver os bastidores, enquetes e spoilers.
+            </p>
+            <a href="https://instagram.com/appnexo" target="_blank" class="inline-flex items-center gap-2 text-xl font-bold text-gray-900 hover:text-rose transition-colors group">
+                <span class="border-b-2 border-rose/30 group-hover:border-rose">@appnexo</span>
+                <i class="fa-solid fa-arrow-right -rotate-45 group-hover:rotate-0 transition-transform duration-300"></i>
+            </a>
+        </div>
+        
+        <!-- Decorative Background Elements (Instagram Colors inspired) -->
+        <div class="absolute top-1/2 left-10 w-24 h-24 bg-gradient-to-tr from-yellow-400 to-rose-500 rounded-3xl opacity-10 rotate-12 blur-xl animate-pulse"></div>
+        <div class="absolute bottom-10 right-10 w-32 h-32 bg-gradient-to-bl from-purple-500 to-rose-400 rounded-full opacity-10 blur-xl"></div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="bg-gray-50 border-t border-gray-200 py-12">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex flex-col md:flex-row justify-between items-center gap-6">
+            <div class="flex items-center gap-2">
+                <div class="w-8 h-8 bg-rose rounded-lg text-white flex items-center justify-center font-bold">N</div>
+                <div class="flex flex-col">
+                    <span class="font-bold text-gray-900 leading-none">Nexo</span>
+                    <span class="text-[10px] text-gray-500 uppercase tracking-widest">Campus Mobile 14ª Ed.</span>
+                </div>
+            </div>
+            
+            <div class="flex gap-6">
+                <a href="https://instagram.com/appnexo" target="_blank" class="text-gray-400 hover:text-rose transition-colors"><i class="fa-brands fa-instagram text-2xl"></i></a>
+                <a href="#" class="text-gray-400 hover:text-rose transition-colors"><i class="fa-brands fa-linkedin text-2xl"></i></a>
+                <a href="#" class="text-gray-400 hover:text-rose transition-colors"><i class="fa-envelope fa-solid text-2xl"></i></a>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Three.js Implementation -->
+    <script>
+        // Configuração Básica
+        const container = document.getElementById('canvas-container');
+        const scene = new THREE.Scene();
+        
+        // Câmera
+        const camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000);
+        camera.position.z = 50;
+
+        // Renderizador
+        const renderer = new THREE.WebGLRenderer({ alpha: true, antialias: true });
+        renderer.setSize(window.innerWidth, window.innerHeight);
+        renderer.setPixelRatio(window.devicePixelRatio);
+        container.appendChild(renderer.domElement);
+
+        // Criar Partículas (Nós da rede)
+        const geometry = new THREE.BufferGeometry();
+        const count = 600; // Número de partículas
+        const positions = new Float32Array(count * 3);
+
+        for(let i = 0; i < count * 3; i++) {
+            positions[i] = (Math.random() - 0.5) * 150; 
+        }
+
+        geometry.setAttribute('position', new THREE.BufferAttribute(positions, 3));
+
+        // Material (Cor Rose)
+        const material = new THREE.PointsMaterial({
+            size: 0.7,
+            color: 0xe66888, // A cor Rose definida no CSS
+            transparent: true,
+            opacity: 0.8,
+            sizeAttenuation: true
+        });
+
+        const particles = new THREE.Points(geometry, material);
+        scene.add(particles);
+
+        // Segundo sistema de partículas (fundo)
+        const geometry2 = new THREE.BufferGeometry();
+        const positions2 = new Float32Array(count * 3);
+        for(let i = 0; i < count * 3; i++) {
+            positions2[i] = (Math.random() - 0.5) * 200; 
+        }
+        geometry2.setAttribute('position', new THREE.BufferAttribute(positions2, 3));
+        const material2 = new THREE.PointsMaterial({
+            size: 0.4,
+            color: 0x1f2937, // Cinza escuro
+            transparent: true,
+            opacity: 0.3
+        });
+        const particles2 = new THREE.Points(geometry2, material2);
+        scene.add(particles2);
+
+        // Interação com Mouse
+        let mouseX = 0;
+        let mouseY = 0;
+        let targetX = 0;
+        let targetY = 0;
+
+        const windowHalfX = window.innerWidth / 2;
+        const windowHalfY = window.innerHeight / 2;
+
+        document.addEventListener('mousemove', (event) => {
+            mouseX = (event.clientX - windowHalfX);
+            mouseY = (event.clientY - windowHalfY);
+        });
+
+        // Loop de Animação
+        const clock = new THREE.Clock();
+
+        function animate() {
+            requestAnimationFrame(animate);
+
+            const elapsedTime = clock.getElapsedTime();
+
+            targetX = mouseX * 0.001;
+            targetY = mouseY * 0.001;
+
+            // Rotação suave constante
+            particles.rotation.y += 0.001;
+            particles.rotation.x += 0.0005;
+
+            // Movimento baseado no mouse (Parallax)
+            particles.rotation.y += 0.05 * (targetX - particles.rotation.y);
+            particles.rotation.x += 0.05 * (targetY - particles.rotation.x);
+
+            // Ondulação suave
+            particles.position.y = Math.sin(elapsedTime * 0.5) * 2;
+
+            // Segundo sistema de partículas (fundo)
+            particles2.rotation.y -= 0.0005;
+
+            renderer.render(scene, camera);
+        }
+
+        animate();
+
+        // Responsividade
+        window.addEventListener('resize', () => {
+            camera.aspect = window.innerWidth / window.innerHeight;
+            camera.updateProjectionMatrix();
+            renderer.setSize(window.innerWidth, window.innerHeight);
+        });
+    </script>
+</body>
+</html>
